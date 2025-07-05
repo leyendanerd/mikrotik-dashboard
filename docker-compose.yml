@@ -8,9 +8,13 @@ services:
       POSTGRES_PASSWORD: mikrotik
     volumes:
       - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "mikrotik"]
+      interval: 5s
+      retries: 5
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
@@ -18,6 +22,7 @@ services:
     environment:
       - DATABASE_URL=postgres://mikrotik:mikrotik@db:5432/mikrotik
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 volumes:
   db_data:

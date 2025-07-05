@@ -28,9 +28,10 @@ Si deseas iniciar sesión y ver la lista de usuarios navega a `http://localhost:
 
 Para ejecutar la aplicación junto a una base de datos Postgres se provee un `docker-compose.yml`.
 
-1. Construye las imágenes y levanta los servicios:
+1. Construye las imágenes y levanta los servicios. Las migraciones de la base de datos se ejecutan automáticamente:
    ```bash
    docker-compose up --build
    ```
 2. Accede a `http://localhost:8000/` para usar la aplicación.
+   El contenedor web esperará hasta que la base de datos esté lista gracias al `healthcheck` definido en `docker-compose.yml`.
 
