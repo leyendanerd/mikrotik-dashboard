@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Dispositivos Mikrotik</h1>
+<table class="table table-striped">
+    <thead>
+        <tr><th>Nombre</th><th>IP</th><th>Usuario</th></tr>
+    </thead>
+    <tbody>
+        {% for device in devices %}
+        <tr>
+            <td>{{ device.name }}</td>
+            <td>{{ device.ip_address }}</td>
+            <td>{{ device.username }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
