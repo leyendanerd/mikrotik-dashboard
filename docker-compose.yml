@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: mikrotik
+      POSTGRES_USER: mikrotik
+      POSTGRES_PASSWORD: mikrotik
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "mikrotik"]
+      interval: 5s
+      retries: 5
+  web:
+    build: .
+    command: ./run.sh
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://mikrotik:mikrotik@db:5432/mikrotik
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  db_data:
