@@ -7,5 +7,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+RUN chmod +x wait-for-db.sh run.sh
+
 ENV PYTHONUNBUFFERED=1
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["./wait-for-db.sh", "db"]
+CMD ["./run.sh"]
